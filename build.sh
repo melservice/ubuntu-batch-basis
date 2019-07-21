@@ -3,15 +3,15 @@
 # Das Skript erstellt das Docker-Image
 # ###########################################################################
 
-# Der Name des Docker-Images, das gebaut werden soll
-DOCKER_NAME=${1:-"melservice/ubuntu-batch-basis"};
-
 # Sicherheitshalber
 . ~/.profile
 
+# Der Name des Docker-Images, das gebaut werden soll
+DOCKER_NAME=${1:-"melservice/ubuntu-batch-basis"};
+
 # Aktuelles Verzeichnis merken und auf das Verzeichnis des Skriptes umschalten
 oldPWD=$(pwd);
-cd $(dirname $0);
+cd "$(dirname $0)";
 
 # Das Image bauen
 docker build --no-cache -t $DOCKER_NAME:latest .;
