@@ -32,7 +32,7 @@ function saveValue {
 	local _valueName="$1";
 	local _fileName="$2";
 	
-	if [ ! -z $(grep "${_valueName}" "${_fileName}") ]; then
+	if [ ! -z $(egrep "^[ \t]*${_valueName}" "${_fileName}") ]; then
 		sed -i "s/${_valueName}=.*/${_valueName}=${!_valueName}/" "${_fileName}";
 	else
 		echo "${_valueName}=${!_valueName}" >>"${_fileName}";
