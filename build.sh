@@ -18,6 +18,6 @@ docker build --no-cache -t $DOCKER_NAME:latest .;
 rc=$?;
 
 # Bei Erfolg wird das Image bei Docker-Hub hochgeladen
-if [ $rc -eq 0 ]; then
-	docker push $DOCKER_NAME:latest
-fi;
+#if [ $rc -eq 0 ]; then
+#	docker push $DOCKER_NAME:latest
+#fi;
