@@ -66,4 +66,3 @@ setACL "/batch/input/ /batch/output/ /batch/archiv/" "root" "$DATA_GROUP"
 
 # Das Start-Skript darf jeder ausführen
 chmod 0755 /batch/bin/start.sh
-cat /batch/bin/batch.properties
