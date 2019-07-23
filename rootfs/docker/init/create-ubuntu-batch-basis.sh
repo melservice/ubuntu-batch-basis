@@ -33,15 +33,20 @@ EXEC_USER="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]
 CONF_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)";
 DATA_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)";
 LOGS_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)";
+newUID="1$(openssl rand -base64 200 | tr -d '[\n]' | tr '[A-Za-x]' '[0-9][0-9][0-9][0-9][0-9]'  | sed "s/[^0-9]//g" | cut -c1-3)";
 
 # Die generierten User und Gruppen in batch.properties notieren
-sed -i "s/EXEC_USER=.*/EXEC_USER=$EXEC_USER/;s/CONF_GROUP=.*/CONF_GROUP=$CONF_GROUP/;s/DATA_GROUP=.*/DATA_GROUP=$DATA_GROUP/;s/LOGS_GROUP=.*/LOGS_GROUP=$LOGS_GROUP/" /batch/bin/batch.properties;
+sed -i "s/EXEC_USER=.*/EXEC_USER=$EXEC_USER/" /batch/bin/batch.properties;
+sed -i "s/EXEC_UID=.*/EXEC_UID=$newUID/" /batch/bin/batch.properties;
+sed -i "s/CONF_GROUP=.*/CONF_GROUP=$CONF_GROUP/" /batch/bin/batch.properties;
+sed -i "s/DATA_GROUP=.*/DATA_GROUP=$DATA_GROUP/" /batch/bin/batch.properties;
+sed -i "s/LOGS_GROUP=.*/LOGS_GROUP=$LOGS_GROUP/" /batch/bin/batch.properties;
 
 # Der Runtime-User $EXEC_USER mit den Gruppen $CONF_GROUP (Configuration), $DATA_GROUP (Daten) und $LOGS_GROUP (Logfiles) wird erstellt.
 addgroup $CONF_GROUP;
 addgroup $DATA_GROUP;
 addgroup $LOGS_GROUP;
-adduser --home "/batch" --shell /bin/bash --ingroup $LOGS_GROUP --disabled-login --disabled-password --quiet $EXEC_USER;
+adduser --uid $newUID --home "/batch" --shell /bin/bash --ingroup $LOGS_GROUP --disabled-login --disabled-password --quiet $EXEC_USER;
 adduser $EXEC_USER $CONF_GROUP;
 adduser $EXEC_USER $DATA_GROUP;
 adduser $EXEC_USER $LOGS_GROUP;
@@ -61,3 +66,4 @@ setACL "/batch/input/ /batch/output/ /batch/archiv/" "root" "$DATA_GROUP"
 
 # Das Start-Skript darf jeder ausführen
 chmod 0755 /batch/bin/start.sh
+cat /batch/bin/batch.properties
