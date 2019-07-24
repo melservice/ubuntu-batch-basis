@@ -3,7 +3,10 @@
 # Initialisierung des Service beim Erstellen des Images
 
 # Die Batch-Konfiguration einlesen
-. /batch/bin/batch.properties
+BatchProperties="/batch/bin/batch.properties";
+if [ -r $BatchProperties ]; then
+	. $BatchProperties
+fi;
 
 # -----------------------------------------------------------------------------
 
@@ -32,7 +35,7 @@ function saveValue {
 	local _valueName="$1";
 	local _fileName="$2";
 	
-	if [ ! -z $(egrep "^[ \t]*${_valueName}" "${_fileName}") ]; then
+	if [ -f "${_fileName}" ] && [ ! -z $(egrep "^[ \t]*${_valueName}" "${_fileName}") ]; then
 		sed -i "s/${_valueName}=.*/${_valueName}=${!_valueName}/" "${_fileName}";
 	else
 		echo "${_valueName}=${!_valueName}" >>"${_fileName}";
@@ -49,11 +52,11 @@ LOGS_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:
 EXEC_UID="1$(openssl rand -base64 200 | tr -d '[\n]' | tr '[A-Za-x]' '[0-9][0-9][0-9][0-9][0-9]'  | sed "s/[^0-9]//g" | cut -c1-3)";
 
 # Die generierten User und Gruppen in batch.properties notieren
-saveValue "EXEC_USER" "/batch/bin/batch.properties";
-saveValue "EXEC_UID" "/batch/bin/batch.properties";
-saveValue "CONF_GROUP" "/batch/bin/batch.properties";
-saveValue "DATA_GROUP" "/batch/bin/batch.properties";
-saveValue "LOGS_GROUP" "/batch/bin/batch.properties";
+saveValue "EXEC_USER" "$BatchProperties";
+saveValue "EXEC_UID" "$BatchProperties";
+saveValue "CONF_GROUP" "$BatchProperties";
+saveValue "DATA_GROUP" "$BatchProperties";
+saveValue "LOGS_GROUP" "$BatchProperties";
 
 # Der Runtime-User $EXEC_USER mit den Gruppen $CONF_GROUP (Configuration), $DATA_GROUP (Daten) und $LOGS_GROUP (Logfiles) wird erstellt.
 addgroup $CONF_GROUP;
