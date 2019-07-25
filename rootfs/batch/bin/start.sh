@@ -8,7 +8,7 @@ set -o pipefail
 # ---------------------------------------------------------------------------------------------------
 
 # Die Batch-Konfiguration einlesen
-. /batch/bin/batch.properties
+. /batch/bin/batchuser.properties
 
 # Die Library nachladen und Skript ggf. im Runtime-User starten
 melDir="/docker/lib";

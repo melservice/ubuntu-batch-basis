@@ -3,7 +3,7 @@
 # Der Start des Batches im Docker-Container
 
 # Die Batch-Konfiguration einlesen
-. /batch/bin/batch.properties
+. /batch/bin/batchuser.properties
 
 echo "Der Batch wurde gestartet!";
 

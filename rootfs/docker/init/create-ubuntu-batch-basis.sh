@@ -3,7 +3,7 @@
 # Initialisierung des Service beim Erstellen des Images
 
 # Die Batch-Konfiguration einlesen
-BatchProperties="/batch/bin/batch.properties";
+BatchProperties="/batch/bin/batchuser.properties";
 if [ -r $BatchProperties ]; then
 	. $BatchProperties
 fi;
@@ -51,7 +51,7 @@ DATA_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:
 LOGS_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)";
 EXEC_UID="1$(openssl rand -base64 200 | tr -d '[\n]' | tr '[A-Za-x]' '[0-9][0-9][0-9][0-9][0-9]'  | sed "s/[^0-9]//g" | cut -c1-3)";
 
-# Die generierten User und Gruppen in batch.properties notieren
+# Die generierten User und Gruppen in batchuser.properties notieren
 saveValue "EXEC_USER" "$BatchProperties";
 saveValue "EXEC_UID" "$BatchProperties";
 saveValue "CONF_GROUP" "$BatchProperties";
