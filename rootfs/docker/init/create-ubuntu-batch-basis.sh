@@ -36,7 +36,7 @@ function saveValue {
 	local _fileName="$2";
 	
 	if [ -f "${_fileName}" ] && [ ! -z $(egrep "^[ \t]*${_valueName}" "${_fileName}") ]; then
-		sed -i "s/${_valueName}=.*/${_valueName}=${!_valueName}/" "${_fileName}";
+		sed -i "s/^[ \t]*${_valueName}=.*/${_valueName}=${!_valueName}/" "${_fileName}";
 	else
 		echo "${_valueName}=${!_valueName}" >>"${_fileName}";
 	fi;
