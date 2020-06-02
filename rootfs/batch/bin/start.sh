@@ -11,19 +11,19 @@ set -o pipefail
 . /batch/bin/batchuser.properties
 
 # Die Library nachladen und Skript ggf. im Runtime-User starten
-melDir="/docker/lib";
+melDir="/docker/lib"
 . "${melDir}/melLibrary.sh"
 
 # ---------------------------------------------------------------------------------------------------
 
 # Start des Batches
-runBatch="/batch/bin/action.sh";
+runBatch="/batch/bin/action.sh"
 if [ -x "$runBatch" ]; then
-	/bin/bash -c $runBatch;
+	/bin/bash -c $runBatch 2>&1 | tee -a /batch/logs/SystemOut.log
 	rc=$?;
 else
-	echo "Batch '$runBatch' nicht vorhanden oder nicht ausführbar";
-	rc=0;
-fi;
+	echo "Batch '$runBatch' nicht vorhanden oder nicht ausführbar"
+	rc=0
+fi
 
-exit $rc;
+exit $rc
