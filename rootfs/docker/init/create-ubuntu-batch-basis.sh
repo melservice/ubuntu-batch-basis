@@ -45,11 +45,11 @@ function saveValue {
 # -----------------------------------------------------------------------------
 
 # Namen für Runtime-User und -Gruppen generieren
-EXEC_USER="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)"
-CONF_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)"
-DATA_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)"
-LOGS_GROUP="$(openssl rand -base64 200 | tr -d '[\n]' | tr '[:upper:]' '[:lower:]' | sed "s/[^a-z]//g" | cut -c1-8)"
-EXEC_UID="1$(openssl rand -base64 200 | tr -d '[\n]' | tr '[A-Za-x]' '[0-9][0-9][0-9][0-9][0-9]'  | sed "s/[^0-9]//g" | cut -c1-3)"
+EXEC_USER="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
+CONF_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
+DATA_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
+LOGS_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
+EXEC_UID="1$(cat /dev/urandom | tr -dc '0-9' | fold -w ${1:-3} | head -n 1)"
 
 # Die generierten User und Gruppen in batchuser.properties notieren
 saveValue "EXEC_USER" "$BatchProperties"
