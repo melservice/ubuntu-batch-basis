@@ -45,11 +45,11 @@ function saveValue {
 # -----------------------------------------------------------------------------
 
 # Namen für Runtime-User und -Gruppen generieren
-EXEC_USER="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
-CONF_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
-DATA_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
-LOGS_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
-EXEC_UID="1$(cat /dev/urandom | tr -dc '0-9' | fold -w ${1:-3} | head -n 1)"
+EXEC_USER="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1 | tr -d '\n')"
+CONF_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1 | tr -d '\n')"
+DATA_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1 | tr -d '\n')"
+LOGS_GROUP="$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1 | tr -d '\n')"
+EXEC_UID="1$(cat /dev/urandom | tr -dc '0-9' | fold -w ${1:-3} | head -n 1 | tr -d '\n')"
 
 # Die generierten User und Gruppen in batchuser.properties notieren
 saveValue "EXEC_USER" "$BatchProperties"
