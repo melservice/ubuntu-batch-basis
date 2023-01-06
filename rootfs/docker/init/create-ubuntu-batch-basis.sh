@@ -24,9 +24,9 @@ function setACL {
 	
 	echo "Berechtigungen setzen für Pfade: $_paths"
 	chown -R $_user:$_gruppe $_paths
-	find "$_paths/" -type d -exec chmod 2750 "{}" \;
-	find "$_paths/" -type f -exec chmod 0640 "{}" \;
-	find "$_paths/" -type f -name "*.sh" -exec chmod 0755 "{}" \;
+	find "$_paths/" -type d -exec chmod 2750 "{}" \; 2>/dev/null
+	find "$_paths/" -type f -exec chmod 0640 "{}" \; 2>/dev/null
+	find "$_paths/" -type f -name "*.sh" -exec chmod 0755 "{}" \; 2>/dev/null
 }
 
 # -----------------------------------------------------------------------------
